@@ -24,13 +24,29 @@ function createUserRepository(newUser){
                 if(err){
                     rej(err)
                 } else {
-                    res({id: this.lastID, ...newUser});
+                    res({massage: 'Usuário criado com sucesso'});
                 }
             }
         )
     })
 }
+function findUserByEmailRepository(email){
+    return new Promise((res, rej) => {
+        db.get(`
+                    SELECT id,userName, email, avatar 
+                    FROM users 
+                    WHERE email = ?
+                `, [email], (err, rows) => {
+            if(err){
+                rej(err)
+            }else{
+                res(rows)
+            }
+        })
+    })
+}
 
 export default{
-    createUserRepository
+    createUserRepository, 
+    findUserByEmailRepository
 }
